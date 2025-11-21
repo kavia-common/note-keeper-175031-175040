@@ -8,6 +8,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 from .models import Note
 from .serializers import NoteSerializer
+from .pagination import StandardResultsSetPagination
 
 
 @api_view(['GET'])
@@ -35,6 +36,8 @@ class NoteViewSet(viewsets.ModelViewSet):
     search_fields = ["title", "content", "tags"]
     ordering_fields = ["created_at", "updated_at", "title"]
     ordering = ["-created_at"]
+    # Use pagination that supports ?page_size=... with a max cap
+    pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
         qs = super().get_queryset()
